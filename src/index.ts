@@ -12,10 +12,10 @@ const unicast = require("unicast");
 const pem = require("pem-file");
 import internalIp from "internal-ip";
 import publicIp from "public-ip";
-import fingerprint from "./lib/fingerprint";
-import { createPassword, createUsername } from "./lib/ice-util";
-import * as sdp from "./lib/sdp";
-import Candidates from "./lib/candidates";
+import fingerprint from "./fingerprint";
+import { createPassword, createUsername } from "./ice-util";
+import * as sdp from "./sdp";
+import Candidates from "./candidates";
 
 const {
   STUN_ATTR_XOR_MAPPED_ADDRESS,
@@ -33,6 +33,14 @@ const {
 module.exports = create;
 
 const tieBreaker = Buffer.from("ffaecc81e3dae860", "hex");
+
+type Option = {
+  external: string;
+  internal: string;
+  certificate: Buffer;
+  privateKey: Buffer;
+  fingerprint: string;
+};
 
 /**
  * WebRTC session.
@@ -74,7 +82,7 @@ class Session extends Emitter {
 
   sctp = null;
 
-  constructor(private options: any = {}) {
+  constructor(private options: Option) {
     super();
   }
 

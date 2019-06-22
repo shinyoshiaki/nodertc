@@ -7,7 +7,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-import nodertc from ".";
+import nodertc from "./src";
 
 const rtc = nodertc({
   certificate: fs.readFileSync(path.resolve("fixtures/certificate.pem")),

@@ -12,10 +12,10 @@ const sctp = require('@nodertc/sctp');
 const { createChannel } = require('@nodertc/datachannel');
 const unicast = require('unicast');
 const pem = require('pem-file');
-const fingerprint = require('./lib/fingerprint');
-const { createPassword, createUsername } = require('./lib/ice-util');
-const sdp = require('./lib/sdp');
-const Candidates = require('./lib/candidates');
+const fingerprint = require('./fingerprint');
+const { createPassword, createUsername } = require('./ice-util');
+const sdp = require('./sdp');
+const Candidates = require('./candidates');
 
 const {
   STUN_ATTR_XOR_MAPPED_ADDRESS,
@@ -492,3 +492,4 @@ class NodeRTC extends Emitter {
 function create(options = {}) {
   return new NodeRTC(options);
 }
+
