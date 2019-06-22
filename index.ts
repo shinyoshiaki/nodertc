@@ -4,17 +4,17 @@ const assert = require("assert");
 const Emitter = require("events");
 const dgram = require("dgram");
 const { isIPv4 } = require("net");
-const internalIp = require("internal-ip");
-const publicIp = require("public-ip");
+import internalIp from "internal-ip";
+import publicIp from "public-ip";
 const stun = require("stun");
 const dtls = require("@nodertc/dtls");
 const sctp = require("@nodertc/sctp");
 const { createChannel } = require("@nodertc/datachannel");
 const unicast = require("unicast");
 const pem = require("pem-file");
-const fingerprint = require("./lib/fingerprint");
+import fingerprint from "./lib/fingerprint";
 const { createPassword, createUsername } = require("./lib/ice-util");
-const sdp = require("./lib/sdp");
+import * as sdp from "./lib/sdp";
 const Candidates = require("./lib/candidates");
 
 const {
@@ -379,7 +379,7 @@ class NodeRTC extends Emitter {
    * @param {Buffer} options.certificatePrivateKey
    */
 
-  _sessions = [];
+  _sessions: Session[] = [];
   _certificate = this.options.certificate;
   _privateKey = this.options.certificatePrivateKey;
 
@@ -476,6 +476,9 @@ class NodeRTC extends Emitter {
  * @param {Buffer} options.certificatePrivateKey
  * @returns {NodeRTC}
  */
-function create(options = {}) {
+export default function create(options: {
+  certificate: Buffer;
+  certificatePrivateKey: Buffer;
+}) {
   return new NodeRTC(options);
 }
