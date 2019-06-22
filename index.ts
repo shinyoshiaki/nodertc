@@ -4,18 +4,18 @@ const assert = require("assert");
 const Emitter = require("events");
 const dgram = require("dgram");
 const { isIPv4 } = require("net");
-import internalIp from "internal-ip";
-import publicIp from "public-ip";
 const stun = require("stun");
 const dtls = require("@nodertc/dtls");
 const sctp = require("@nodertc/sctp");
 const { createChannel } = require("@nodertc/datachannel");
 const unicast = require("unicast");
 const pem = require("pem-file");
+import internalIp from "internal-ip";
+import publicIp from "public-ip";
 import fingerprint from "./lib/fingerprint";
-const { createPassword, createUsername } = require("./lib/ice-util");
+import { createPassword, createUsername } from "./lib/ice-util";
 import * as sdp from "./lib/sdp";
-const Candidates = require("./lib/candidates");
+import Candidates from "./lib/candidates";
 
 const {
   STUN_ATTR_XOR_MAPPED_ADDRESS,
@@ -455,10 +455,8 @@ class NodeRTC extends Emitter {
    * Prepares WebRTC server to work.
    */
   async start() {
-    const [external, internal] = await Promise.all([
-      publicIp.v4(),
-      internalIp.v4()
-    ]);
+    const external = await publicIp.v4();
+    const internal = await internalIp.v4();
 
     this._publicIp = external;
     this._internalIp = internal;
